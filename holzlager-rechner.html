@@ -198,6 +198,24 @@
     max-width: 380px;
     line-height: 1.5;
   }
+
+  .shop-link {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 22px;
+    padding: 16px;
+    background: var(--dark);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(47,93,47,0.25);
+    transition: background 0.15s;
+  }
+  .shop-link:active { background: #24451f; }
 </style>
 </head>
 <body>
@@ -218,6 +236,8 @@
 </div>
 
 <p class="info">Luftraum-Faktor je Scheitlänge: 33&nbsp;cm &rarr; 0,85 &middot; 25&nbsp;cm &rarr; 0,75.<br>Faustregel-Werte, keine geeichte Messung.</p>
+
+<a class="shop-link" href="https://brennholz-dosch.de/collections/all?view=ecom-brennholzshop" target="_blank" rel="noopener">Jetzt Brennholz bestellen &rarr;</a>
 
 <script>
 let stackCount = 0;
@@ -285,7 +305,7 @@ function setFaktor(id, scheitlaenge, faktor) {
 
 function calculateStack(id) {
   const s = stacks[id];
-  const ster = s.laenge * s.hoehe * s.scheitlaenge * s.faktor;
+  const ster = (s.laenge * s.hoehe * s.scheitlaenge) / s.faktor;
   document.getElementById('result-' + id).textContent = ster.toFixed(2).replace('.', ',') + ' Ster';
   return ster;
 }
