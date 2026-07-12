@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Holzlager-Rechner</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, sans-serif;
+    background: #f4f6f2;
+    color: #2c3b2c;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 60px;
+  }
+  h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  p.subtitle {
+    color: #6b7c6b;
+    font-size: 14px;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 12px rgba(44,59,44,0.08);
+    margin-bottom: 16px;
+  }
+  label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #d8e2d8;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    background: #f9faf7;
+    color: #2c3b2c;
+  }
+  button {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #4a7c3a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  button:active { background: #3d6630; }
+  .result {
+    margin-top: 16px;
+    padding: 16px;
+    background: #eef5e5;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+  }
+  .result .line {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .result .sub {
+    font-size: 13px;
+    color: #6b7c6b;
+  }
+  .info {
+    font-size: 12px;
+    color: #8a998a;
+    text-align: center;
+    margin-top: 8px;
+    max-width: 400px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Holzlager-Rechner</h1>
+<p class="subtitle">Wie viel Holz passt hinein? (Buche, 33 cm Scheitlänge)</p>
+
+<div class="card">
+  <label for="laenge">Länge des Lagers (Meter)</label>
+  <input type="number" id="laenge" placeholder="z. B. 4" step="0.1" min="0">
+
+  <label for="breite">Breite / Scheitlänge (Meter)</label>
+  <input type="number" id="breite" placeholder="z. B. 0.33" step="0.01" min="0">
+
+  <label for="hoehe">Höhe des Stapels (Meter)</label>
+  <input type="number" id="hoehe" placeholder="z. B. 1.8" step="0.1" min="0">
+
+  <button onclick="berechne()">Berechnen</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<p class="info">Faktor Buche 33 cm: 1 Ster ≈ 1,4 Schüttraummeter. Werte als Faustregel, keine geeichte Messung.</p>
+
+<script>
+function berechne() {
+  const l = parseFloat(document.getElementById('laenge').value);
+  const b = parseFloat(document.getElementById('breite').value);
+  const h = parseFloat(document.getElementById('hoehe').value);
+  const resultBox = document.getElementById('result');
+
+  if (isNaN(l) || isNaN(b) || isNaN(h) || l <= 0 || b <= 0 || h <= 0) {
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = '<div class="line">Bitte alle Maße gültig eingeben.</div>';
+    return;
+  }
+
+  const ster = l * b * h;
+  const faktorBuche33 = 1.4;
+  const schuett = ster * faktorBuche33;
+
+  resultBox.style.display = 'block';
+  resultBox.innerHTML =
+    '<div class="line">' + ster.toFixed(2) + ' Ster (Raummeter)</div>' +
+    '<div class="sub">entspricht ca. ' + schuett.toFixed(2) + ' Schüttraummeter</div>';
+}
+</script>
+
+</body>
+</html>
